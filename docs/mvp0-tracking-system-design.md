@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines a practical system design for shipping MVP0 of Loadstar as a tracking-first lifting app.
+This document defines a practical system design for shipping MVP0 of Loadstar as a social app with a tracking-first lifting core.
 
 It is informed by:
 
@@ -11,17 +11,41 @@ It is informed by:
 
 Key product decision:
 
-- MVP0 ships only the tracking stack
+- MVP0 ships the tracking core inside a socially native app shell
 - the social system is deferred to MVP1
 - the architecture should preserve a clean future integration boundary for workout sharing and profiles without forcing that complexity into MVP0
 - MVP0 should still preserve a socially native product foundation in identity, shareable summaries, and profile-ready data
+- the product is not a trainer, coaching product, or prescriptive workout app
+
+## Product Shell Assumption
+
+MVP0 should live inside a 5-tab mobile app shell even though the full social system is deferred.
+
+Recommended bottom navigation:
+
+- `Home`
+- `Explore`
+- `Lift`
+- `History`
+- `Profile`
+
+Interpretation for MVP0:
+
+- `Lift` is the center-tab primary action and the durable home of any in-progress workout
+- `History` is the archive for previous lifts and exercise recall
+- `Profile` remains intentionally lightweight in MVP0 but must exist as the identity surface
+- `Home` and `Explore` can remain explicit `Coming Soon` surfaces in MVP0 as long as the shell establishes the correct future product shape
+
+Important IA rule:
+
+- `History` belongs to the right of `Lift`, near `Profile`, because it is part of the user's personal record rather than a discovery surface
 
 ## System Goals
 
 - make logging feel instant
 - work reliably offline in the gym
 - preserve user trust with durable workout history
-- support personalized suggestions from the user's own data
+- support fast recall and autofill from the user's own data
 - keep the architecture simple enough for an MVP team
 - avoid coupling tracking internals to future social features
 - keep workout records and summaries structured so they can become compelling profile and feed artifacts later
@@ -44,6 +68,14 @@ System implication:
 - local writes must commit immediately on-device
 - UI should never wait on network round trips to confirm a set
 
+### Product Requirement: Resume In-Progress Workout On Reopen
+
+System implication:
+
+- the current active session must always be recoverable from local storage on app relaunch
+- the `Lift` tab must resolve to the active workout when one exists
+- ordinary app backgrounding or closing should not require an explicit recovery flow
+
 ### Product Requirement: Previous Session Recall
 
 System implication:
@@ -51,12 +83,12 @@ System implication:
 - recent exercise history must be queryable with low latency from local storage
 - denormalized read models are acceptable where they simplify core screens
 
-### Product Requirement: Suggested Next Exercises
+### Product Requirement: Fast Recall Without Prescription
 
 System implication:
 
-- maintain lightweight local or server-assisted ranking features derived from session history
-- support inference without requiring explicit templates
+- maintain lightweight local ranking and retrieval features derived from session history
+- use history to power quick access and autofill, not exercise recommendation
 
 ### Product Requirement: Custom Exercises
 
@@ -90,14 +122,14 @@ MVP0 should ship as a modular monolith with a local-first client.
 - iOS-first app, or cross-platform mobile client if the team prefers
 - local database for sessions, sets, exercises, and read models
 - sync engine for background upload and reconciliation
-- suggestion engine for immediate local ranking
+- recall engine for immediate local ranking and autofill
 
 ### Backend
 
 - single application service exposing auth, tracking APIs, and sync endpoints
 - relational primary database
 - object storage only if attachments are added later
-- async job worker for derived summaries and suggestion feature updates
+- async job worker for derived summaries and recall feature updates
 
 ### Why This Shape
 
@@ -144,11 +176,11 @@ Encapsulates:
 
 This layer should own business rules instead of scattering them across UI code.
 
-### 3. Suggestion Engine
+### 3. Recall Engine
 
 Provides:
 
-- ranked next exercises
+- fast recall of recently used or historically related exercises
 - first-set defaults
 - recent-history snippets
 
@@ -172,6 +204,7 @@ Produces view-friendly projections such as:
 - recent sessions list
 - exercise summaries
 - inferred session-type labels
+- app-shell surfaces such as home resume state, history list items, and lightweight profile summaries
 
 ## Backend Components
 
@@ -196,7 +229,7 @@ Owns:
 - history queries
 - sync endpoints
 
-### 3. Suggestion/Derived Data Worker
+### 3. Recall/Derived Data Worker
 
 Computes or refreshes:
 
@@ -389,10 +422,20 @@ Should include the minimum data to make the app useful immediately:
 - user's custom exercises
 - recent sessions summary
 - recent exercise stats snapshots
+- lightweight profile basics needed for the `Profile` tab
 
 ## Query and Read Models
 
 The active workout screen should not build itself from expensive joins every render. Create direct read models for the core surfaces.
+
+### Read Model: App Shell State
+
+Contains:
+
+- whether an in-progress session exists
+- active session id if present
+- lightweight counts and badges needed for main-tab presentation
+- basic profile summary needed for the MVP0 `Profile` tab
 
 ### Read Model: Active Session View
 
@@ -402,15 +445,25 @@ Contains:
 - ordered exercise blocks
 - sets grouped by exercise
 - last-session reference per exercise
-- next-exercise suggestions
+- quick-add shortcuts derived from recent or similar history
 
-### Read Model: Today Screen
+### Read Model: Home View
 
 Contains:
 
 - in-progress session if any
 - repeatable recent sessions
-- suggested session candidates
+- explicit `Coming Soon` state for future social feed content in MVP0
+
+For MVP0, this is the practical replacement for a tracker-only `Today` screen inside the full app shell.
+
+### Read Model: History View
+
+Contains:
+
+- recent completed sessions
+- repeatable prior workouts
+- lightweight exercise recall snippets where useful
 
 ### Read Model: Exercise Detail
 
@@ -421,7 +474,15 @@ Contains:
 - latest set progression
 - compact trend summaries
 
-## Suggestion and Ranking Design
+### Read Model: Profile Summary
+
+Contains:
+
+- lightweight identity fields
+- recent workout summary cards or counts
+- profile-ready stats that can later be reused by social surfaces without reshaping tracking data
+
+## Recall and Ranking Design
 
 MVP0 does not need a heavy ML system. A deterministic scoring system is enough.
 
@@ -435,22 +496,20 @@ Score inputs:
 - frequency
 - used in current session before
 - commonly paired with current session exercises
-- commonly follows current exercise sequence
 - present in most similar prior session
 
-## Suggested Next Exercise Ranking
+## Quick-Add Recall Ranking
 
 Features:
 
-- transition probability from previous exercise
-- whether exercise appears in similar historical sessions
-- whether it is typically not yet completed by this point
-- day-of-week correlation
 - recency and frequency
+- whether the exercise is already part of the current session
+- whether exercise appears in similar historical sessions
+- whether it commonly co-occurs in the user's own history
 
 Output:
 
-- top 3 to 5 suggestions with optional reason strings such as `usual next` or `from last push day`
+- top 3 to 5 quick-add candidates with optional reason strings such as `recently used` or `from similar workout`
 
 ## First-Set Default Inheritance
 
@@ -481,6 +540,7 @@ This is optional metadata, not a hard domain primitive.
 - all core workout actions should resolve locally in under 100 ms
 - active workout screen should render from local state only
 - search should debounce minimally or not at all when using local indexes
+- app relaunch with an in-progress workout should restore the active session deterministically from local state
 
 ### Backend
 
@@ -510,7 +570,7 @@ Instrument the product to validate the core thesis.
 - time from app open to first set logged
 - average taps per set logged
 - share of sets logged via repeat action
-- share of exercise adds from suggestions versus manual search
+- share of exercise adds from history-based quick-add versus manual search
 - session completion rate
 - custom exercise creation rate
 - offline mutation success rate
@@ -580,14 +640,17 @@ This preserves independence and avoids contaminating MVP0 design with MVP1 conce
 - set logging
 - repeat set
 - history
+- app-shell support for `Lift` resume behavior
 
 ## Phase 2: Smart Assistance
 
 - previous-session recall
 - ranked search
-- next-exercise suggestions
+- history-based quick-add shortcuts
 - custom exercises
 - bodyweight family support
+- explicit `Coming Soon` `Home` and `Explore` shell surfaces
+- lightweight `Profile` shell surface
 
 ## Phase 3: Reliability and Polish
 
@@ -595,6 +658,7 @@ This preserves independence and avoids contaminating MVP0 design with MVP1 conce
 - derived read models
 - analytics instrumentation
 - undo and deletion polish
+- app relaunch and in-progress-session restoration hardening
 
 ## Main Risks
 
@@ -619,7 +683,7 @@ Mitigation:
 
 Mitigation:
 
-- create explicit read models for Today, Active Session, and Exercise Detail
+- create explicit read models for Home, Active Session, History, and Exercise Detail
 - denormalize recent history snippets
 
 ### Risk 4: Exercise Taxonomy Drift
@@ -632,7 +696,7 @@ Mitigation:
 
 ## Recommendation
 
-Build MVP0 as a tracking-only, local-first product with a modular monolith backend and explicit sync contracts.
+Build MVP0 as a local-first social app shell with a serious tracking core, a modular monolith backend, and explicit sync contracts.
 
 That gives the team the best path to ship:
 

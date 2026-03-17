@@ -13,7 +13,7 @@ The core design principle is separation of concerns:
 ## Product Goals
 
 - Support a familiar modern social product experience in the orbit of Instagram and Strava, adapted for lifters.
-- Allow public creators, private friend circles, and coach-athlete relationships.
+- Allow public creators and private friend circles.
 - Handle media-heavy content and engagement patterns.
 - Keep the architecture modular so the workout-tracking system can evolve independently.
 - Start simple enough for an MVP, but avoid design choices that block later scale.
@@ -28,6 +28,16 @@ That means:
 - identity, profiles, and workout history should feel presentation-ready
 - workout summaries should be easy to render as social cards later
 - tracking UX should feel compatible with a modern mobile social app aesthetic rather than a utility dashboard
+
+Recommended long-term app shell:
+
+- `Home`
+- `Explore`
+- `Lift`
+- `History`
+- `Profile`
+
+This matters even before the full social stack ships because the navigation should already communicate that the product is a consumer social app with a first-class lifting action at its center, not a standalone logging utility.
 
 ## Non-Goals
 
@@ -44,7 +54,7 @@ That means:
 - Username, display name, bio, avatar, pronouns, location, links.
 - Account states: active, disabled, deleted, banned, shadow-limited.
 - Device/session management.
-- Account verification for notable creators/coaches/gyms.
+- Account verification for notable creators or gyms.
 
 ### 2. Profiles
 
@@ -61,7 +71,7 @@ That means:
   - Following count.
   - Post count.
 - Pinned posts.
-- Linked gym, coach, team, or brand affiliations.
+- Linked gym, team, or brand affiliations.
 
 ### 3. Social Graph
 
@@ -97,7 +107,6 @@ These are social posts that reference workout data without coupling social to tr
 - Share a completed workout.
 - Share a PR or milestone card.
 - Share a gym check-in.
-- Share a program completion badge.
 - Share transformations or progress photos.
 
 The social service stores a reference to the workout-domain object and a denormalized render snapshot for feed display.
@@ -176,7 +185,7 @@ Delivery channels:
 - Search users by username/display name.
 - Search hashtags.
 - Search gyms/locations later.
-- Discover suggested users.
+- Discover suggested users and communities.
 - Trending content later.
 
 ### 13. Privacy and Safety
@@ -373,7 +382,7 @@ The important part is clean module boundaries and event contracts, not network b
 
 - `post_external_ref`
   - `post_id`
-  - `ref_type` enum: workout, achievement, gym, program
+  - `ref_type` enum: workout, achievement, gym
   - `ref_id`
   - `snapshot_json`
 
@@ -1047,7 +1056,7 @@ This is the simplest architecture that can grow into a serious consumer social a
 ## Open Questions for the Next Design Pass
 
 - What exact product surfaces are in v1: only feed/profile, or DMs too?
-- Is there a concept of gyms, teams, coaches, or creators as first-class entities?
+- Is there a concept of gyms, teams, or creators as first-class entities?
 - Will workout shares dominate the feed, or coexist with general lifestyle posts?
 - Is discovery important at launch, or is the app initially invite/community driven?
 - Are there special safety needs around age, body image, or harassment controls?
