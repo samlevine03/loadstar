@@ -10,7 +10,7 @@ The design goal is simple:
 
 - a serious lifter can log a real session between sets with almost no typing
 - the app feels faster than notes, spreadsheets, and incumbent lifting trackers
-- the interface looks focused, athletic, and intentional rather than playful or generic
+- the interface feels like a modern consumer social app for lifters rather than a generic tracker or a dense gym utility
 
 ## MVP0 Scope
 
@@ -43,7 +43,7 @@ The design goal is simple:
 
 ## Product Positioning
 
-The product should feel like a premium training instrument.
+The product should feel like a modern social fitness app with elite tracking depth.
 
 It should not resemble:
 
@@ -54,9 +54,9 @@ It should not resemble:
 
 It should resemble:
 
-- a fast field notebook for strength training
-- a performance dashboard tuned for repeated mid-workout use
-- a serious tool that rewards consistency and progression
+- the lifting equivalent of Strava
+- a polished mobile social product that happens to have unusually good workout logging
+- a fast, high-trust training companion that makes progress feel presentable and worth returning to
 
 ## UX Principles
 
@@ -373,35 +373,37 @@ MVP0 should keep charts simple and secondary.
 
 ## Brand Personality
 
-- disciplined
-- tactile
+- modern
+- social
 - confident
-- high-performance
-- minimal but not sterile
+- athletic
+- polished without feeling corporate
+- expressive without becoming noisy
 
 ## Color System
 
-Avoid generic wellness palettes and avoid purple-heavy startup styling.
+Avoid generic wellness palettes, avoid gloomy graphite-heavy utility styling, and avoid flashy startup gradients.
 
 Recommended foundation:
 
-- background: warm near-black or graphite
-- primary surface: charcoal / gunmetal
-- accent: oxidized lime, training red, or electric amber used sparingly
-- success: muted green
-- warning: burnt amber
-- destructive: iron red
+- background: clean white or soft warm-neutral
+- primary surface: white
+- secondary surface: very light stone or mist
+- accent: energetic orange or red-orange, supported by a crisp blue for links, charts, or secondary emphasis
+- success: fresh green used naturally
+- warning: warm amber
+- destructive: clear red
 
 Suggested token direction:
 
-- `bg-primary`: `#111315`
-- `bg-surface`: `#181C1F`
-- `bg-elevated`: `#21272B`
-- `text-primary`: `#F3F4F2`
-- `text-secondary`: `#A8B0B5`
-- `accent-primary`: `#C7FF4A`
-- `accent-secondary`: `#FF6B3D`
-- `border-subtle`: `rgba(255,255,255,0.08)`
+- `bg-primary`: `#F7F6F3`
+- `bg-surface`: `#FFFFFF`
+- `bg-secondary`: `#F0EEE8`
+- `text-primary`: `#141414`
+- `text-secondary`: `#6B6B6B`
+- `accent-primary`: `#FC4C02`
+- `accent-secondary`: `#2563EB`
+- `border-subtle`: `rgba(20,20,20,0.08)`
 
 ## Typography
 
@@ -409,7 +411,7 @@ Use a type system with stronger character than standard SaaS defaults.
 
 Recommended direction:
 
-- condensed or athletic display face for headings and large numeric stats
+- modern consumer-app display typography for headings and large numeric stats
 - highly legible grotesk or neo-grotesk for UI labels and controls
 - tabular numerals for set rows, timers, and performance values
 
@@ -418,12 +420,13 @@ Typography goals:
 - weights and reps should be visually authoritative
 - timers and active controls should read instantly
 - small metadata should stay quiet
+- the app should feel friendly enough to support profiles, feeds, and shareable progress later
 
 ## Shape and Density
 
-- medium corner radius, not overly soft
-- strong card separation through depth and border contrast
-- dense enough for serious logging, but with oversized tap targets
+- medium-to-generous corner radius with clean card stacks
+- strong hierarchy through spacing and typography more than chrome
+- dense enough for serious logging, but airy enough to feel like a modern social app
 
 ## Motion
 
@@ -434,7 +437,7 @@ Motion should reinforce workout rhythm.
 - suggested next exercise chips: soft slide/fade
 - completed set row: micro flash to confirm capture
 
-Animations should feel crisp and industrial, not whimsical.
+Animations should feel crisp, confident, and native to a modern consumer app.
 
 ## Responsive Behavior
 
@@ -503,39 +506,39 @@ These prompts are intended for image-generation or UI-concept tools. They are wr
 
 Append this guidance to every prompt unless a tool requires shorter text:
 
-`Design a premium mobile fitness app UI for serious lifters. Tracking-first, no social feed, no likes, no comments. Dark graphite background, high-contrast typography, crisp athletic interface, industrial but refined, large thumb-friendly controls, tabular numerals, strong card hierarchy, premium product-shot lighting, realistic iPhone Pro frame, highly legible text, believable product design, not a generic Dribbble shot, not playful, not neon cyberpunk, not purple-heavy, not glassmorphism.`
+`Design a high-fidelity mobile app UI for Loadstar, a tracking-first social fitness app for lifters and the closest thing to Strava for strength training. MVP0 is focused on tracking, so do not show likes, comments, messaging, or a feed on these screens, but the product should still feel socially native and consumer-grade. Use a clean bright mobile UI with white or soft warm-neutral surfaces, dark text, subtle layering, energetic orange accents, optional blue secondary accents, modern editorial typography, large thumb-friendly controls, tabular numerals, strong hierarchy, realistic iPhone Pro hardware, and believable product-level polish. Avoid gloomy graphite dashboards, lime accents, bodybuilding poster aesthetics, generic wellness visuals, purple-heavy startup styling, glassmorphism, or sci-fi UI.`
 
 ### Prompt 1: Today / Start Workout
 
-`Create an iPhone app mockup for a lifting tracker home screen called Loadstar. Show a "Today" tab with a dominant Resume Workout or Start Workout card, a row of suggested recent sessions, and a compact recent activity summary. Visual style is premium athletic software, dark graphite surfaces, off-white text, lime accent used sparingly, condensed display type for key headings, clean neo-grotesk UI labels, bold hierarchy, large rounded-rectangle cards, subtle depth, realistic spacing, designed for one-handed gym use between sets. No social feed, no avatars grid, no community elements.`
+`Create an iPhone app mockup for a lifting app home screen called Loadstar. Show a "Today" tab with a dominant Resume Workout or Start Workout card, a row of suggested recent sessions, and a compact recent activity summary. The screen should feel like a modern social fitness app for serious lifters: polished, current, fast, and mobile-native. Use clean light surfaces, dark text, restrained orange accents, subtle blue secondary accents if useful, strong editorial hierarchy, rounded cards, realistic spacing, and excellent legibility for one-handed use between sets. No social feed, no avatars grid, and no community UI on this MVP0 screen.`
 
 ### Prompt 2: Active Workout Core Screen
 
-`Create a high-fidelity mobile app mockup of the core workout logging screen for a serious lifting app. Show an in-progress session with multiple exercise blocks such as Bench Press, Incline Dumbbell Press, and Pull-Up. Each block includes a last-session reference line, large set rows with load and reps, and a bold one-tap "Repeat Set" action. Include a sticky strip for suggested next exercises and a small rest timer. Interface should feel extremely fast, focused, and built for use mid-workout with sweaty hands. Use dark graphite surfaces, crisp off-white text, muted grey metadata, lime accent for primary actions, tabular numerals, sharp premium styling, realistic iPhone hardware frame.`
+`Create a high-fidelity mobile app mockup of the core workout logging screen for Loadstar, a tracking-first social app for lifters. Show an in-progress session with multiple exercise blocks such as Bench Press, Incline Dumbbell Press, and Pull-Up. Each block includes a last-session reference line, large set rows with load and reps, and a bold one-tap "Repeat Set" action. Include a sticky strip for suggested next exercises and a small rest timer. The interface should feel extremely fast, focused, and built for use mid-workout with sweaty hands, while still looking like a modern consumer social product rather than a utility dashboard. Use bright clean surfaces, dark text, restrained orange accents, tabular numerals, strong hierarchy, and realistic iPhone hardware framing.`
 
 ### Prompt 3: Set Edit Bottom Sheet
 
-`Design a premium iOS bottom-sheet interaction for editing a logged lifting set. The sheet should have oversized controls for reps and load, plus/minus steppers, a direct keypad option, and a clean save action. Make the numbers visually dominant and easy to adjust with a thumb. Show the background dimmed behind an active workout screen. Style should be industrial, athletic, polished, and serious, with dark UI, high contrast, restrained accent color, and no generic fintech or wellness styling.`
+`Design a premium iOS bottom-sheet interaction for editing a logged lifting set in Loadstar. The sheet should have oversized controls for reps and load, plus/minus steppers, a direct keypad option, and a clean save action. Make the numbers visually dominant and easy to adjust with a thumb. Show the background dimmed behind an active workout screen. Style should feel like a polished modern social fitness app: clean, current, athletic, and trustworthy, with bright surfaces, dark text, restrained orange accents, subtle layering, and no generic fintech, wellness, or bodybuilder-poster styling.`
 
 ### Prompt 4: Add Exercise Search
 
-`Create a mobile app search panel for adding an exercise during a workout. The panel behaves like a predictive command bar and includes sections labeled Suggested Next, Recent, Usual For This Workout, Search Results, and Create Custom Exercise. The user has typed part of an exercise name, and the likely result appears immediately. Show concise metadata like last used weight or custom badge. The design should feel fast and intelligent, with strong typography, dark surfaces, subtle separators, premium athletic aesthetic, and no unnecessary illustrations.`
+`Create a mobile app search panel for adding an exercise during a workout in Loadstar. The panel behaves like a predictive command bar and includes sections labeled Suggested Next, Recent, Usual For This Workout, Search Results, and Create Custom Exercise. The user has typed part of an exercise name, and the likely result appears immediately. Show concise metadata like last used weight or custom badge. The design should feel fast, intelligent, and native to a modern social app, with clean light surfaces, strong typography, subtle separators, and no unnecessary illustrations.`
 
 ### Prompt 5: Bodyweight Logging
 
-`Create an iPhone mockup of a workout set editor for a bodyweight exercise such as Pull-Up. Show a segmented control with BW, Weighted, and Assisted modes. Reps are the primary control, with external load shown second. Include examples like BW x 8 and BW + 25 x 6 in the interface. The design should make bodyweight logging feel native and intentional, not hacked around numeric zero values. Use premium dark UI, crisp typography, serious lifting aesthetic, lime or amber accent, and realistic product-level polish.`
+`Create an iPhone mockup of a workout set editor for a bodyweight exercise such as Pull-Up in Loadstar. Show a segmented control with BW, Weighted, and Assisted modes. Reps are the primary control, with external load shown second. Include examples like BW x 8 and BW + 25 x 6 in the interface. The design should make bodyweight logging feel native and intentional, not hacked around numeric zero values. Use bright premium mobile UI, crisp typography, orange-led accenting, and realistic product-level polish with a modern social-app feel.`
 
 ### Prompt 6: Custom Exercise Creation
 
-`Design a compact mobile modal for creating a custom exercise inside a workout flow. Include only minimal fields: name, equipment type, bodyweight toggle, optional muscle tags. The design should communicate speed and low ceremony, with the new exercise available instantly. Use a serious, premium, dark athletic design language with large touch targets, clean text fields, restrained accent color, and realistic iOS styling.`
+`Design a compact mobile modal for creating a custom exercise inside a workout flow in Loadstar. Include only minimal fields: name, equipment type, bodyweight toggle, optional muscle tags. The design should communicate speed and low ceremony, with the new exercise available instantly. Use a polished modern iOS design language with clean light surfaces, large touch targets, crisp typography, restrained orange accents, and realistic consumer-app styling.`
 
 ### Prompt 7: Session Complete Summary
 
-`Create a polished mobile session-complete screen for a lifting tracker. Show workout duration, exercises completed, total sets, total volume, and one notable progress highlight. The design should feel rewarding but restrained, like a premium performance tool rather than a gamified app. Dark graphite background, powerful typography, clean stat cards, a single primary Done button, no social share actions, no confetti, no childish celebration.`
+`Create a polished mobile session-complete screen for Loadstar. Show workout duration, exercises completed, total sets, total volume, and one notable progress highlight. The design should feel rewarding but restrained, like a modern social fitness product that respects training rather than gamifying it. Use bright clean surfaces, powerful typography, clean stat cards, and a single primary Done button. Do not show social share actions, confetti, or childish celebration.`
 
 ### Prompt 8: Exercise Detail / Progress Recall
 
-`Create a mobile exercise detail screen for Bench Press in a serious lifting tracker. Show latest session performance, best recent set, a compact trend chart or list, and recent workout entries. Use dominant numeric hierarchy, tabular numerals, dark premium UI, subtle chart styling, and a focused performance-oriented aesthetic. The screen should look useful to an experienced lifter, not like a beginner fitness app.`
+`Create a mobile exercise detail screen for Bench Press in Loadstar. Show latest session performance, best recent set, a compact trend chart or list, and recent workout entries. Use dominant numeric hierarchy, tabular numerals, subtle chart styling, and a polished modern social-fitness aesthetic. The screen should look useful to an experienced lifter while still feeling like a consumer app someone would proudly return to and eventually share from.`
 
 ## Negative Prompt Guidance
 
@@ -546,7 +549,7 @@ Use these exclusions when the tool supports negative prompting:
 - influencers
 - bodybuilding poster aesthetic
 - cartoon icons
-- bright gradients
+- loud gradients
 - pastel wellness colors
 - purple startup UI
 - glassmorphism

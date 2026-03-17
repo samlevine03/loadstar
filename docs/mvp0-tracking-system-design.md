@@ -14,6 +14,7 @@ Key product decision:
 - MVP0 ships only the tracking stack
 - the social system is deferred to MVP1
 - the architecture should preserve a clean future integration boundary for workout sharing and profiles without forcing that complexity into MVP0
+- MVP0 should still preserve a socially native product foundation in identity, shareable summaries, and profile-ready data
 
 ## System Goals
 
@@ -23,6 +24,7 @@ Key product decision:
 - support personalized suggestions from the user's own data
 - keep the architecture simple enough for an MVP team
 - avoid coupling tracking internals to future social features
+- keep workout records and summaries structured so they can become compelling profile and feed artifacts later
 
 ## Non-Goals for MVP0
 
@@ -182,6 +184,7 @@ Handles:
 - device session tokens
 
 Keep profile scope small in MVP0.
+But it should still create a clean path to later usernames, profile surfaces, avatars, and share permissions.
 
 ### 2. Tracking API Module
 

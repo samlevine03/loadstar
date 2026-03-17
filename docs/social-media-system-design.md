@@ -12,11 +12,22 @@ The core design principle is separation of concerns:
 
 ## Product Goals
 
-- Support a familiar social experience similar to Instagram or Strava.
+- Support a familiar modern social product experience in the orbit of Instagram and Strava, adapted for lifters.
 - Allow public creators, private friend circles, and coach-athlete relationships.
 - Handle media-heavy content and engagement patterns.
 - Keep the architecture modular so the workout-tracking system can evolve independently.
 - Start simple enough for an MVP, but avoid design choices that block later scale.
+- Make the overall product feel like one coherent consumer app, not a tracker with a disconnected community tab added later.
+
+## Product Experience Principle
+
+Even when tracking and social ship in phases, the product should read as socially native from day one.
+
+That means:
+
+- identity, profiles, and workout history should feel presentation-ready
+- workout summaries should be easy to render as social cards later
+- tracking UX should feel compatible with a modern mobile social app aesthetic rather than a utility dashboard
 
 ## Non-Goals
 

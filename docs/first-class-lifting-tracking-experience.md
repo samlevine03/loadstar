@@ -17,6 +17,7 @@ The product should feel:
 - Flexible enough for real-world lifting behavior.
 - Personal enough to adapt to the user's routines.
 - Serious enough that experienced lifters trust it.
+- Social-native enough that sharing progress, identity, and follow behavior feel like natural extensions rather than a second product bolted on later.
 
 ## Core Product Thesis
 
@@ -31,6 +32,12 @@ This product should treat logging as assisted sequence capture:
 - Customization is available without making the main flow complex.
 
 The ideal outcome is that a user can log an entire session with a small number of taps and only occasional edits.
+
+This is important because "Strava for lifters" is not just a feature roadmap. It is a product posture:
+
+- tracking must be first-class
+- identity and progress must feel worth returning to
+- the app should feel like a modern consumer social product, not a niche spreadsheet for the gym
 
 ## Design Principles
 
